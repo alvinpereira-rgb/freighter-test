@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Freighter Wallet Integration</title>
+</head>
+<body>
+  <h2>Connect to Freighter Wallet</h2>
+  <button id="connect">Connect to Freighter</button>
+  <p id="output"></p>
+
+  <script>
+    document.getElementById("connect").addEventListener("click", async () => {
+      try {
+        if (window.freighterApi) {
+          const isConnected = await window.freighterApi.isConnected();
+          if (isConnected) {
+            const address = await window.freighterApi.getPublicKey();
+            document.getElementById("output").innerText = "Connected wallet: " + address;
+          } else {
+            document.getElementById("output").innerText = "Freighter not connected.";
+          }
+        } else {
+          document.getElementById("output").innerText = "Freighter extension not found.";
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById("output").innerText = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
